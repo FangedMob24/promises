@@ -17,22 +17,20 @@ function drawCard(deckId) {
     })
 }
 
+function pressed() {
+    drawCard($("#deck").attr("value"))
+        .then(res => {
+            $(".cards").append(`<p>${res.data.cards[0].value} of ${res.data.cards[0].suit}</p>`)
+        })
+        .catch(err => console.log(err));
+}
+$("input").on("click", pressed)
+
 shuffle(deckUrl)
     .then(res => {
-        deckId = res.data.deckId;
-        return drawCard(res.data.deck_id);
-    })
-    .then(res => {
-        console.log(`${res.data.cards[0].value} of ${res.data.cards[0].suit}`)
-        return drawCard(res.data.deck_id)
-    })
-    .then(res => {
-        console.log(`${res.data.cards[0].value} of ${res.data.cards[0].suit}`)
-        return res.data.deck_id
-    })
-    .then(res => {
-        deckId = res
+        deckId = res.data.deck_id;
+        $("#deck").attr("value",`${deckId}`);
     })
     .catch(err => console.log(err));
 
-console.log(deckId)
+
